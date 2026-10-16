@@ -85,6 +85,15 @@
     <string name="reboot_download">Reboot to Download</string>
     <string name="reboot_edl">Reboot to EDL</string>
     <string name="about">About</string>
+    <string name="settings_change_package_name">Change Package Name</string>
+    <string name="settings_change_package_name_summary">Give this fork a unique package name so it can be installed next to the official KernelSU.</string>
+    <string name="change_package_name_current">Current package name: %s</string>
+    <string name="change_package_name_hint">Package name</string>
+    <string name="change_package_name_random">Random</string>
+    <string name="change_package_name_copy">Copy</string>
+    <string name="change_package_name_copied">Copied to clipboard</string>
+    <string name="change_package_name_notice">Android can\'t rename an installed app at runtime. Pick a name here, then set KSU_PACKAGE_NAME for the manager, ksud and kernel and rebuild.</string>
+    <string name="fork_by">fork by @w3xdev</string>
     <string name="module_uninstall_confirm">Are you sure you want to uninstall module %s?</string>
     <string name="metamodule_uninstall_confirm">Are you sure you want to uninstall module %s? This action will affect all modules, and certain features provided by the metamodule (such as mounting) will no longer work.</string>
     <string name="module_uninstall_success">%s uninstalled</string>
