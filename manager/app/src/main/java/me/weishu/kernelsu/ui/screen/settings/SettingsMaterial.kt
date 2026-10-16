@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
@@ -21,6 +22,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.DeveloperMode
 import androidx.compose.material.icons.filled.DisplaySettings
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.FlashOn
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LayersClear
@@ -32,6 +34,7 @@ import androidx.compose.material.icons.filled.SystemUpdateAlt
 import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeFlexibleTopAppBar
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -46,6 +49,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import me.weishu.kernelsu.R
@@ -75,10 +79,16 @@ fun SettingPagerMaterial(
     val snackBarHost = remember { SnackbarHostState() }
     val showUninstallDialog = rememberSaveable { mutableStateOf(false) }
     var showBottomSheet by remember { mutableStateOf(false) }
+    var showChangePackageName by remember { mutableStateOf(false) }
 
     UninstallDialog(
         show = showUninstallDialog.value,
         onDismissRequest = { showUninstallDialog.value = false }
+    )
+
+    ChangePackageNameDialog(
+        show = showChangePackageName,
+        onDismissRequest = { showChangePackageName = false }
     )
 
     ExpressiveScaffold(
@@ -348,6 +358,19 @@ fun SettingPagerMaterial(
                 content = listOf(
                     {
                         SegmentedListItem(
+                            onClick = { showChangePackageName = true },
+                            headlineContent = { Text(stringResource(id = R.string.settings_change_package_name)) },
+                            supportingContent = { Text(stringResource(id = R.string.settings_change_package_name_summary)) },
+                            leadingContent = {
+                                Icon(
+                                    Icons.Filled.Edit,
+                                    stringResource(id = R.string.settings_change_package_name)
+                                )
+                            },
+                        )
+                    },
+                    {
+                        SegmentedListItem(
                             onClick = { showBottomSheet = true },
                             headlineContent = { Text(stringResource(id = R.string.send_log)) },
                             leadingContent = {
@@ -374,6 +397,16 @@ fun SettingPagerMaterial(
             )
 
             Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = stringResource(R.string.fork_by),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 12.dp)
+            )
 
             if (showBottomSheet) {
                 SendLogBottomSheet(

@@ -23,6 +23,7 @@ import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Description
 import androidx.compose.material.icons.rounded.DeveloperMode
 import androidx.compose.material.icons.rounded.DisplaySettings
+import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.FlashOn
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.LayersClear
@@ -39,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import me.weishu.kernelsu.R
@@ -54,11 +56,13 @@ import top.yukonga.miuix.kmp.basic.Card
 import top.yukonga.miuix.kmp.basic.Icon
 import top.yukonga.miuix.kmp.basic.MiuixScrollBehavior
 import top.yukonga.miuix.kmp.basic.Scaffold
+import top.yukonga.miuix.kmp.basic.Text
 import top.yukonga.miuix.kmp.basic.TopAppBar
 import top.yukonga.miuix.kmp.blur.layerBackdrop
 import top.yukonga.miuix.kmp.preference.ArrowPreference
 import top.yukonga.miuix.kmp.preference.OverlayDropdownPreference
 import top.yukonga.miuix.kmp.preference.SwitchPreference
+import top.yukonga.miuix.kmp.theme.MiuixTheme
 import top.yukonga.miuix.kmp.theme.MiuixTheme.colorScheme
 import top.yukonga.miuix.kmp.utils.overScrollVertical
 import top.yukonga.miuix.kmp.utils.scrollEndHaptic
@@ -81,6 +85,12 @@ fun SettingPagerMiuix(
     val loadingDialog = rememberLoadingDialog()
     val showUninstallDialog = rememberSaveable { mutableStateOf(false) }
     val showSendLogDialog = rememberSaveable { mutableStateOf(false) }
+    val showChangePackageName = rememberSaveable { mutableStateOf(false) }
+
+    ChangePackageNameDialog(
+        show = showChangePackageName.value,
+        onDismissRequest = { showChangePackageName.value = false }
+    )
 
     Scaffold(
         topBar = {
@@ -447,6 +457,20 @@ fun SettingPagerMiuix(
                             .padding(vertical = 12.dp)
                             .fillMaxWidth(),
                     ) {
+                        val changePackageName = stringResource(id = R.string.settings_change_package_name)
+                        ArrowPreference(
+                            title = changePackageName,
+                            summary = stringResource(id = R.string.settings_change_package_name_summary),
+                            startAction = {
+                                Icon(
+                                    Icons.Rounded.Edit,
+                                    modifier = Modifier.padding(end = 6.dp),
+                                    contentDescription = changePackageName,
+                                    tint = colorScheme.onBackground
+                                )
+                            },
+                            onClick = { showChangePackageName.value = true },
+                        )
                         ArrowPreference(
                             title = stringResource(id = R.string.send_log),
                             startAction = {
@@ -478,6 +502,15 @@ fun SettingPagerMiuix(
                             onClick = actions.onOpenAbout,
                         )
                     }
+                    Text(
+                        text = stringResource(R.string.fork_by),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 12.dp),
+                        color = colorScheme.onSurfaceVariantSummary,
+                        textAlign = TextAlign.Center,
+                        fontSize = MiuixTheme.textStyles.footnote1.fontSize
+                    )
                     Spacer(Modifier.height(bottomInnerPadding))
                 }
             }
